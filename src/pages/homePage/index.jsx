@@ -8,10 +8,11 @@ import Rightarrow from "../../assets/icon/rightarrow";
 import { useState } from "react";
 import BottomSheetContent from "../../components/bottomSheet/bottomSheetContent";
 
+
 const Home = () => {
     const [isOpen, setOpen] = useState(false);
-
     const [isTick, setIsTick] = useState(false);
+
     return (
         <div className="overflow-hidden h-screen m-0 p-0 flex flex-col items-center bg-gradient-to-r from-[#85A1BA] to-[#194591]">
             <img
