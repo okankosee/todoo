@@ -1,8 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Radiobuton from '../../assets/icon/radiobuton';
 import Pin from '../../assets/icon/pin';
 import { useSelector, useDispatch } from 'react-redux'
-import BottomSheet from '.';
+import BottomSheet from '.'
+import { todos } from '../../redux/todosSlice';
+
+
+const input = () => {
+    const [input,setInput] = useState('')
+    const dispatch = useDispatch()
+    const addTodo = () => {
+        dispatch(todos({
+            item: input,
+            done: false,
+            id: Date.now()
+        }))
+    }
+}
+
+
+
 const BottomSheetContent = ({ isOpen, setOpen }) => {
 
     return (

@@ -11,8 +11,20 @@ export const todosSlice = createSlice({
         todos: (state, payload) => {
             state.todos = payload;
         },
+        setCheck: (state,actions) => {
+            state.todos.map(item=> {
+                if (actions.payload === item.id) {
+                    if (item.done === true) {
+                        item.done = false
+                    } else {
+                        item.done = true
+                    }
+                }
+            })
+        }
     },
 })
 
-export const { todos } = todosSlice.actions
+export const { todos, setCheck } = todosSlice.actions
+export const selectTodos = state => state.todos.selectTodos
 export default todosSlice.reducer

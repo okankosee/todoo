@@ -1,8 +1,8 @@
 import Pin from "./assets/icon/pin";
 import westerops from "./assets/westerops.png";
-import Bluetick from "./assets/icon/bluetick";
-import Horizontal from "./assets/icon/horizontal";
-import Tick from "./assets/icon/tick";
+// import Bluetick from "./assets/icon/bluetick";
+// import Horizontal from "./assets/icon/horizontal";
+// import Tick from "./assets/icon/tick";
 import Quote from "./assets/icon/quote";
 import Quoteorange from "./assets/icon/quoteorange";
 import Rightarrow from "./assets/icon/rightarrow";
@@ -10,9 +10,9 @@ import Close from "./assets/icon/close";
 import Radiobuton from "./assets/icon/radiobuton";
 import Sheet from "react-modal-sheet";
 import { useState } from "react";
-import { useSelector, useDispatch } from 'react-redux'
-import { todos } from "./redux/todosSlice";
-
+import { useSelector, useDispatch } from "react-redux";
+import { todosSlice } from "./redux/todosSlice";
+import { selectTodos } from "./redux/todosSlice";
 
 
 function App() {
@@ -20,13 +20,15 @@ function App() {
   const OpenBottomSheet = () => {
     setOpen(true);
   };
+  const todos = useSelector(selectTodos)
   const dispatch = useDispatch();
   const todoss = useSelector((state) => state.todos.todos);
-  console.log(todoss, 'okan')
+  console.log(todoss, "ok");
+
   return (
     <>
       <div>
-        <button onClick={() => dispatch(todos([23]))} >Ekle</button>
+        <button onClick={() => dispatch(todos([23]))}>Ekle</button>
         <div className="overflow-hidden h-screen m-0 p-0 flex flex-col items-center bg-gradient-to-r from-[#85A1BA] to-[#194591]">
           <img
             className="mt-[53px] h-[22px] w-[164px] text-black"
@@ -49,58 +51,69 @@ function App() {
                   Pin on the top
                 </p>
               </div>
-              <div className="w-[311px] flex justify-between ml-4 mt-[25px]">
-                <Bluetick />
-                <p className="text-[#010A1B] font-inter text-base font-normal leading-5 px-4  ml-[-40px]">
-                  Getting an invite for Figma
-                </p>
-                <div className="justify-end">
-                  <Horizontal />
-                </div>
+              <div>
+                {todos.map((item) => (
+                  <div key={item.id}>
+                    <p>{item.title}</p>
+                  </div>
+                ))}
               </div>
+
+              {/* <div className="w-[311px] flex justify-between ml-4 mt-[25px]"> */}
+              {/* <Bluetick /> */}
+              {/* <p className="text-[#010A1B] font-inter text-base font-normal leading-5 px-4  ml-[-40px]"> */}
+              {/* Getting an invite for Figma */}
+              {/* </p> */}
+              {/* <div className="justify-end"> */}
+              {/* <Horizontal /> */}
+              {/* </div> */}
+              {/* </div> */}
             </div>
-            <div className="w-[311px] flex justify-between ml-4 mt-[25px]">
-              <Tick />
-              <p className="text-[#010A1B] font-inter text-base font-normal leading-5  mr-10 ml-[-90px]">
-                8 am meeting
-              </p>
-              <Horizontal />
-            </div>
-            <div className="w-[311px] flex justify-between ml-4 mt-[25px]">
-              <Bluetick />
-              <p className="text-[#010A1B] font-inter text-base font-normal leading-5 ml-[-90px]">
-                Finish visual Design
-              </p>
-              <Horizontal />
-            </div>
-            <div className="w-[311px] flex justify-between ml-4 mt-[25px]">
-              <Tick />
-              <p className="text-[#010A1B] font-inter text-base font-normal leading-5 px-4 mr-10 ml-[-100px]">
-                Do research
-              </p>
-              <Horizontal />
-            </div>
-            <div className="w-[311px] flex justify-between ml-4 mt-[25px]">
-              <Tick />
-              <p className="text-[#010A1B] font-inter text-base font-normal leading-5 px-4  ml-[-40px]">
-                Reading About WesterOps
-              </p>
-              <Horizontal />
-            </div>
-            <div className="w-[311px] flex justify-between ml-4 mt-[25px]">
-              <Tick />
-              <p className="text-[#010A1B] font-inter text-base font-normal leading-5  ml-[-170px]">
-                Do yoga
-              </p>
-              <Horizontal />
-            </div>
+            {/* <div className="w-[311px] flex justify-between ml-4 mt-[25px]"> */}
+            {/* <Tick /> */}
+            {/* <p className="text-[#010A1B] font-inter text-base font-normal leading-5  mr-10 ml-[-90px]"> */}
+            {/* 8 am meeting */}
+            {/* </p> */}
+            {/* <Horizontal /> */}
+            {/* </div> */}
+            {/* <div className="w-[311px] flex justify-between ml-4 mt-[25px]"> */}
+            {/* <Bluetick /> */}
+            {/* <p className="text-[#010A1B] font-inter text-base font-normal leading-5 ml-[-90px]"> */}
+            {/* Finish visual Design */}
+            {/* </p> */}
+            {/* <Horizontal /> */}
+            {/* </div> */}
+            {/* <div className="w-[311px] flex justify-between ml-4 mt-[25px]"> */}
+            {/* <Tick /> */}
+            {/* <p className="text-[#010A1B] font-inter text-base font-normal leading-5 px-4 mr-10 ml-[-100px]"> */}
+            {/* Do research */}
+            {/* </p> */}
+            {/* <Horizontal /> */}
+            {/* </div> */}
+            {/* <div className="w-[311px] flex justify-between ml-4 mt-[25px]"> */}
+            {/* <Tick /> */}
+            {/* <p className="text-[#010A1B] font-inter text-base font-normal leading-5 px-4  ml-[-40px]"> */}
+            {/* Reading About WesterOps */}
+            {/* </p> */}
+            {/* <Horizontal /> */}
+            {/* </div> */}
+            {/* <div className="w-[311px] flex justify-between ml-4 mt-[25px]"> */}
+            {/* <Tick /> */}
+            {/* <p className="text-[#010A1B] font-inter text-base font-normal leading-5  ml-[-170px]"> */}
+            {/* Do yoga */}
+            {/* </p> */}
+            {/* <Horizontal /> */}
+            {/* </div> */}
             <div className="h-[100px]"></div>
-            <div className="bg-[#21A7F9] w-[311px] h-[54px] rounded-md flex justify-between ml-4 mb-4 ">
+            <div
+              onClick={() => OpenBottomSheet()}
+              className="bg-[#21A7F9] w-[311px] h-[54px] rounded-md flex justify-between ml-4 mb-4 "
+            >
               <div className="flex items-center ml-6 ">
                 <Quote />
               </div>
               <div className="text-white font-Inter text-base font-normal leading-normal tracking-tight ml-[-120px] mt-[15px]">
-                <button onClick={() => OpenBottomSheet()}>Add a task</button>
+                Add a task
               </div>
               <div className="flex items-center mr-4">
                 <Rightarrow />
@@ -108,8 +121,12 @@ function App() {
             </div>
           </div>
         </div>
-      </div >
-      <Sheet detent="content-height" isOpen={isOpen} onClose={() => setOpen(false)}>
+      </div>
+      <Sheet
+        detent="content-height"
+        isOpen={isOpen}
+        onClose={() => setOpen(false)}
+      >
         <Sheet.Container>
           {/* <Sheet.Header className="bg-red-600 "/> */}
           <div className="left-0 right-0 flex items-center justify-center h-[56px] border-b border-[#E5E5E5] border-w-[1.5px]">
@@ -121,7 +138,6 @@ function App() {
             <button
               className="absolute top-4 right-4"
               onClick={() => setOpen(false)}
-
             >
               <Close />
             </button>
@@ -160,7 +176,6 @@ function App() {
                     </div>
                   </div>
                 </div>
-
               </>
             }
           </Sheet.Content>
