@@ -1,8 +1,8 @@
 import Pin from "./assets/icon/pin";
 import westerops from "./assets/westerops.png";
-// import Bluetick from "./assets/icon/bluetick";
-// import Horizontal from "./assets/icon/horizontal";
-// import Tick from "./assets/icon/tick";
+import Bluetick from "./assets/icon/bluetick";
+import Horizontal from "./assets/icon/horizontal";
+import Tick from "./assets/icon/tick";
 import Quote from "./assets/icon/quote";
 import Quoteorange from "./assets/icon/quoteorange";
 import Rightarrow from "./assets/icon/rightarrow";
@@ -11,8 +11,9 @@ import Radiobuton from "./assets/icon/radiobuton";
 import Sheet from "react-modal-sheet";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { todosSlice } from "./redux/todosSlice";
-import { selectTodos } from "./redux/todosSlice";
+import { todosSet } from "./redux/todosSlice";
+import { useEffect } from "react";
+import { uid } from 'react-uid';
 
 
 function App() {
@@ -20,11 +21,21 @@ function App() {
   const OpenBottomSheet = () => {
     setOpen(true);
   };
-  const todos = useSelector(selectTodos)
+  // const [textVal, setText] = useState('')
+  // const [inpValue, setinpValue] = useState({
+  //   id: Math.floor(Math.random() * 10),
+  //   text: textVal,
+  //   checked: false
+  // });
+  // console.log(textVal, 'text')
+  // const handleChange = (e) => {
+  //   setText(e.target.value);
+  //   setinpValue(inpValue.text)
+  // }
+  // console.log(inpValue, 'inp')
   const dispatch = useDispatch();
-  const todoss = useSelector((state) => state.todos.todos);
-  console.log(todoss, "ok");
-
+  const todos = useSelector((state) => state.todos.todos);
+  console.log(todos, 'asd')
   return (
     <>
       <div>
@@ -52,58 +63,21 @@ function App() {
                 </p>
               </div>
               <div>
-                {todos.map((item) => (
-                  <div key={item.id}>
-                    <p>{item.title}</p>
+                {todos?.map((item) => (
+                  <div key={item.id} className="flex justify-between">
+                    {item.checked ? <Bluetick /> : <Tick />}
+                    <p>{item.text}</p>
+                    <Horizontal />
                   </div>
                 ))}
+                {/* <button onClick={() => dispatch(todosSet({
+                  id: 3,
+                  text: 'worked',
+                  checked: false
+                }))}>EKLE</button> */}
               </div>
-
-              {/* <div className="w-[311px] flex justify-between ml-4 mt-[25px]"> */}
-              {/* <Bluetick /> */}
-              {/* <p className="text-[#010A1B] font-inter text-base font-normal leading-5 px-4  ml-[-40px]"> */}
-              {/* Getting an invite for Figma */}
-              {/* </p> */}
-              {/* <div className="justify-end"> */}
-              {/* <Horizontal /> */}
-              {/* </div> */}
-              {/* </div> */}
             </div>
-            {/* <div className="w-[311px] flex justify-between ml-4 mt-[25px]"> */}
-            {/* <Tick /> */}
-            {/* <p className="text-[#010A1B] font-inter text-base font-normal leading-5  mr-10 ml-[-90px]"> */}
-            {/* 8 am meeting */}
-            {/* </p> */}
-            {/* <Horizontal /> */}
-            {/* </div> */}
-            {/* <div className="w-[311px] flex justify-between ml-4 mt-[25px]"> */}
-            {/* <Bluetick /> */}
-            {/* <p className="text-[#010A1B] font-inter text-base font-normal leading-5 ml-[-90px]"> */}
-            {/* Finish visual Design */}
-            {/* </p> */}
-            {/* <Horizontal /> */}
-            {/* </div> */}
-            {/* <div className="w-[311px] flex justify-between ml-4 mt-[25px]"> */}
-            {/* <Tick /> */}
-            {/* <p className="text-[#010A1B] font-inter text-base font-normal leading-5 px-4 mr-10 ml-[-100px]"> */}
-            {/* Do research */}
-            {/* </p> */}
-            {/* <Horizontal /> */}
-            {/* </div> */}
-            {/* <div className="w-[311px] flex justify-between ml-4 mt-[25px]"> */}
-            {/* <Tick /> */}
-            {/* <p className="text-[#010A1B] font-inter text-base font-normal leading-5 px-4  ml-[-40px]"> */}
-            {/* Reading About WesterOps */}
-            {/* </p> */}
-            {/* <Horizontal /> */}
-            {/* </div> */}
-            {/* <div className="w-[311px] flex justify-between ml-4 mt-[25px]"> */}
-            {/* <Tick /> */}
-            {/* <p className="text-[#010A1B] font-inter text-base font-normal leading-5  ml-[-170px]"> */}
-            {/* Do yoga */}
-            {/* </p> */}
-            {/* <Horizontal /> */}
-            {/* </div> */}
+
             <div className="h-[100px]"></div>
             <div
               onClick={() => OpenBottomSheet()}
@@ -151,6 +125,8 @@ function App() {
                     type="Task description"
                     style={{ gap: "17px", border: "1.5px solid #999C9F" }}
                     placeholder="Task description"
+                  // value={textVal}
+                  // onChange={handleChange}
                   />
                 </div>
                 <div className="flex flex-col">
@@ -165,7 +141,9 @@ function App() {
                   </div>
                   <div className="flex flex-col mt-[270px]">
                     <div className="flex justify-center">
-                      <button className="bg-[#21A7F9] bg-opacity-60 w-[311px] font-normal text-lg leading-5 text-white h-12 rounded">
+                      <button
+                        //  onClick={() => dispatch(todosSet(inpValue))} 
+                        className="bg-[#21A7F9] bg-opacity-60 w-[311px] font-normal text-lg leading-5 text-white h-12 rounded">
                         Save
                       </button>
                     </div>

@@ -1,18 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    todos: [],
+    todos: [{
+        id: 1,
+        text: 'work',
+        checked: true
+    }, {
+        id: 2,
+        text: 'working',
+        checked: true
+    }
+    ]
 }
 
 export const todosSlice = createSlice({
     name: 'todos',
     initialState,
     reducers: {
-        todos: (state, payload) => {
-            state.todos = payload;
+        todosSet: (state, payload) => {
+            state.todos = [...state.todos, payload.payload];
         },
-        setCheck: (state,actions) => {
-            state.todos.map(item=> {
+        setCheck: (state, actions) => {
+            state.todos.map(item => {
                 if (actions.payload === item.id) {
                     if (item.done === true) {
                         item.done = false
@@ -25,6 +34,6 @@ export const todosSlice = createSlice({
     },
 })
 
-export const { todos, setCheck } = todosSlice.actions
+export const { todosSet, setCheck } = todosSlice.actions
 export const selectTodos = state => state.todos.selectTodos
 export default todosSlice.reducer
