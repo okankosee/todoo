@@ -1,62 +1,59 @@
 import React, { useState } from 'react'
-import Radiobuton from '../../assets/icon/radiobuton';
-import Pin from '../../assets/icon/pin';
-import { useSelector, useDispatch } from 'react-redux'
-import BottomSheet from '.'
-import { todos } from '../../redux/todosSlice';
+import Blackpin from '../../assets/icon/blackpin';
+import Delete from '../../assets/icon/delete';
+import Sync from '../../assets/icon/sync'
+import Sheet from 'react-modal-sheet';
 
 
-const input = () => {
-    const [input,setInput] = useState('')
-    const dispatch = useDispatch()
-    const addTodo = () => {
-        dispatch(todos({
-            item: input,
-            done: false,
-            id: Date.now()
-        }))
-    }
-}
+function BottomSheetContent () {
+const [isOpen, setOpen] = useState(false);
+const BottomSheetContent = () => {
+  setOpen(true);
+};
 
 
-
-const BottomSheetContent = ({ isOpen, setOpen }) => {
+// const BottomSheetContent = ({ isOpen, setOpen }) => {
 
     return (
-        <BottomSheet isOpen={isOpen} setOpen={setOpen}>
-            <div className="flex justify-center w-[311px] h-[52px] m-8 flex-col  ">
-                <input
-                    className=" flex box-border items-start h-12 bg-white rounded p-4 w-full outline-none"
-                    type="Task description"
-                    style={{ gap: "17px", border: "1.5px solid #999C9F" }}
-                    placeholder="Task description"
-                />
-            </div>
-            <div className="flex flex-col">
-                <div className="flex mt-[33px] ml-8">
-                    <Pin />
-                    <p className="text-[#010A1B] font-Inter text-sm font-normal leading-5 px-2 ">
-                        Pin on the top
-                    </p>
-                    <div className=" flex ml-[162px]">
-                        <Radiobuton />
-                    </div>
+        <Sheet
+        detent="content-height"
+        isOpen={isOpen} onClose={() => setOpen(false)}>
+        <Sheet.Container>
+          
+          <Sheet.Content>{
+            <>
+            <div className='flex justify-center items-center my-6'>
+                <div >
+                <Blackpin/>
+                <p className='ml-2 h-5 text-#010A1B font-Inter text-16 font-normal leading-normal tracking-tight" style="letter-spacing: -0.24px;'>Pin on the top</p>
                 </div>
-                <div className="flex flex-col mt-[270px]">
-                    <div className="flex justify-center">
-                        <button className="bg-[#21A7F9] bg-opacity-60 w-[311px] font-normal text-lg leading-5 text-white h-12 rounded">
-                            Save
-                        </button>
-                    </div>
-                    <div className="mb-16 mt-8 flex justify-center">
-                        <button className="font-Inter text-lg leading-5 text-[#21A7F9]">
-                            Cancel
-                        </button>
-                    </div>
-                </div>
+                <span className="h-[0.5px] w-full bg-[#E5E5E5]"></span>
             </div>
-        </BottomSheet>
-    )
-}
+            <div className='flex justify-center items-center my-6'>
+                <div>
+                <Sync/>
+                <p className='ml-2 h-5 text-#010A1B font-Inter text-16 font-normal leading-normal tracking-tight" style="letter-spacing: -0.24px;'>Update</p>
+                </div>
+                <span className="h-[0.5px] w-full bg-[#E5E5E5]"></span>
+            </div>
+            <div className='flex justify-center items-center my-6'>
+                <div>
+                <Delete />
+                <p className='ml-2 h-5 text-#010A1B font-Inter text-16 font-normal leading-normal tracking-tight" style="letter-spacing: -0.24px;'>Delete</p>
+                </div>
+                <span className="h-[0.5px] w-full bg-[#E5E5E5]"></span>
+            </div>
+            </>
+            };
+            
+            
+            
+            </Sheet.Content>
+        </Sheet.Container>
+        <Sheet.Backdrop />
+      </Sheet>
+    );
+};
 
-export default BottomSheetContent
+
+export default BottomSheetContent;

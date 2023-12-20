@@ -12,34 +12,36 @@ import Sheet from "react-modal-sheet";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { todosSet } from "./redux/todosSlice";
-import { useEffect } from "react";
-import { uid } from 'react-uid';
-
+// import { useEffect } from "react";
+import BottomSheetContent from "./components/bottomSheet/bottomSheetContent";
 
 function App() {
   const [isOpen, setOpen] = useState(false);
   const OpenBottomSheet = () => {
     setOpen(true);
+  
+};
+  const [textVal, setTextVal] = useState("");
+  const [inpValue, setinpValue] = useState({
+    id: Math.floor(Math.random() * 10),
+    text: textVal,
+    checked: false,
+  });
+  console.log(textVal, "text");
+  const handleChange = (e) => {
+    setTextVal(e.target.value);
+    setinpValue({
+      ...inpValue,
+      text: e.target.value,
+    });
   };
-  // const [textVal, setText] = useState('')
-  // const [inpValue, setinpValue] = useState({
-  //   id: Math.floor(Math.random() * 10),
-  //   text: textVal,
-  //   checked: false
-  // });
-  // console.log(textVal, 'text')
-  // const handleChange = (e) => {
-  //   setText(e.target.value);
-  //   setinpValue(inpValue.text)
-  // }
   // console.log(inpValue, 'inp')
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos.todos);
-  console.log(todos, 'asd')
+  console.log(todos, "asd");
   return (
     <>
       <div>
-        <button onClick={() => dispatch(todos([23]))}>Ekle</button>
         <div className="overflow-hidden h-screen m-0 p-0 flex flex-col items-center bg-gradient-to-r from-[#85A1BA] to-[#194591]">
           <img
             className="mt-[53px] h-[22px] w-[164px] text-black"
@@ -62,26 +64,33 @@ function App() {
                   Pin on the top
                 </p>
               </div>
+            </div>
+            <div>
               <div>
                 {todos?.map((item) => (
-                  <div key={item.id} className="flex justify-between">
+                  <div
+                    key={item.id}
+                    className="flex justify-between px-4 mb-[30px] mt-4"
+                  >
                     {item.checked ? <Bluetick /> : <Tick />}
-                    <p>{item.text}</p>
+                    <div className="flex">
+                    <p className="text-[#010A1B] left-0 font-inter text-base font-normal leading-5 px-4 ml-[-130px]">
+                      {item.text}
+                    </p>
+                    </div>
+                    <button 
+                     
+                     onClick={() => BottomSheetContent()}>
                     <Horizontal />
+                    </button>
                   </div>
                 ))}
-                {/* <button onClick={() => dispatch(todosSet({
-                  id: 3,
-                  text: 'worked',
-                  checked: false
-                }))}>EKLE</button> */}
               </div>
             </div>
 
-            <div className="h-[100px]"></div>
             <div
               onClick={() => OpenBottomSheet()}
-              className="bg-[#21A7F9] w-[311px] h-[54px] rounded-md flex justify-between ml-4 mb-4 "
+              className="bg-[#21A7F9] w-[311px] h-[54px] rounded-md flex justify-between ml-4 mb-4 mt-[240px] "
             >
               <div className="flex items-center ml-6 ">
                 <Quote />
@@ -125,8 +134,8 @@ function App() {
                     type="Task description"
                     style={{ gap: "17px", border: "1.5px solid #999C9F" }}
                     placeholder="Task description"
-                  // value={textVal}
-                  // onChange={handleChange}
+                    value={textVal}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="flex flex-col">
@@ -142,13 +151,20 @@ function App() {
                   <div className="flex flex-col mt-[270px]">
                     <div className="flex justify-center">
                       <button
-                        //  onClick={() => dispatch(todosSet(inpValue))} 
-                        className="bg-[#21A7F9] bg-opacity-60 w-[311px] font-normal text-lg leading-5 text-white h-12 rounded">
+                        onClick={() => {
+                          dispatch(todosSet(inpValue));
+                          setOpen(false);
+                        }}
+                        className="bg-[#21A7F9] bg-opacity-60 w-[311px] font-normal text-lg leading-5 text-white h-12 rounded"
+                      >
                         Save
                       </button>
                     </div>
                     <div className="mb-16 mt-8 flex justify-center">
-                      <button className="font-Inter text-lg leading-5 text-[#21A7F9]">
+                      <button
+                        onClick={() => setOpen(false)}
+                        className="font-Inter text-lg leading-5 text-[#21A7F9]"
+                      >
                         Cancel
                       </button>
                     </div>
