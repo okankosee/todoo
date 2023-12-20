@@ -14,13 +14,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { todosSet } from "./redux/todosSlice";
 // import { useEffect } from "react";
 import BottomSheetContent from "./components/bottomSheet/bottomSheetContent";
+import { SetIsThreeDotBottomSheetOpen } from "./redux/bottomSheetSlice";
 
-function App() {
+const App = () => {
   const [isOpen, setOpen] = useState(false);
   const OpenBottomSheet = () => {
     setOpen(true);
-  
-};
+
+  };
   const [textVal, setTextVal] = useState("");
   const [inpValue, setinpValue] = useState({
     id: Math.floor(Math.random() * 10),
@@ -49,39 +50,40 @@ function App() {
             alt="logo"
           />
 
-          <div className="w-[343px] h-[650px] rounded-lg bg-white mb-[62px] mt-[78px]">
-            <div className="w-full h-[54px] flex flex-col items-center justify-center  ">
-              <p className="text-[#194591] text-center font-Inter font-semibold text-lg tracking-wide leading-normal mt-4">
-                To Do List
-              </p>
-              <span className="h-1 w-[159px] bg-[#FF7964] "></span>
-              <span className="h-[0.5px] w-full bg-[#E5E5E5]"></span>
-            </div>
-            <div className="w-full h-[126px] border-b border-[#E5E5E5] flex flex-col">
-              <div className="flex mt-[25px] ml-4">
-                <Pin />
-                <p className="text-[#FF7964] font-Inter text-sm font-normal leading-5 px-2 ">
-                  Pin on the top
-                </p>
-              </div>
-            </div>
+          <div className="bg-white w-[343px] h-[650px] rounded-lg flex flex-col justify-between">
             <div>
-              <div>
+              <div className="w-full h-[54px] flex flex-col items-center justify-center  ">
+                <p className="text-[#194591] text-center font-Inter font-semibold text-lg tracking-wide leading-normal mt-4">
+                  To Do List
+                </p>
+                <span className="h-1 w-[159px] bg-[#FF7964] "></span>
+                <span className="h-[0.5px] w-full bg-[#E5E5E5]"></span>
+              </div>
+              <div className="w-full h-[126px] border-b border-[#E5E5E5] flex flex-col">
+                <div className="flex mt-[25px] ml-4">
+                  <Pin />
+                  <p className="text-[#FF7964] font-Inter text-sm font-normal leading-5 px-2 ">
+                    Pin on the top
+                  </p>
+                </div>
+              </div>
+              <div className=" overflow-auto h-96">
                 {todos?.map((item) => (
                   <div
                     key={item.id}
                     className="flex justify-between px-4 mb-[30px] mt-4"
                   >
                     {item.checked ? <Bluetick /> : <Tick />}
-                    <div className="flex">
-                    <p className="text-[#010A1B] left-0 font-inter text-base font-normal leading-5 px-4 ml-[-130px]">
-                      {item.text}
-                    </p>
+                    <div className="flex w-full">
+                      <p className="text-[#010A1B] text-left font-inter text-base font-normal leading-5 px-4 ">
+                        {item.text.slice(0, 20)}
+                      </p>
                     </div>
-                    <button 
-                     
-                     onClick={() => BottomSheetContent()}>
-                    <Horizontal />
+                    <button
+
+                      onClick={() => dispatch(SetIsThreeDotBottomSheetOpen())}
+                    >
+                      <Horizontal />
                     </button>
                   </div>
                 ))}
@@ -90,7 +92,7 @@ function App() {
 
             <div
               onClick={() => OpenBottomSheet()}
-              className="bg-[#21A7F9] w-[311px] h-[54px] rounded-md flex justify-between ml-4 mb-4 mt-[240px] "
+              className="bg-[#21A7F9] w-[311px] h-[54px] rounded-md flex justify-between ml-4 mb-4"
             >
               <div className="flex items-center ml-6 ">
                 <Quote />
@@ -104,6 +106,7 @@ function App() {
             </div>
           </div>
         </div>
+        <BottomSheetContent />
       </div>
       <Sheet
         detent="content-height"
@@ -154,6 +157,7 @@ function App() {
                         onClick={() => {
                           dispatch(todosSet(inpValue));
                           setOpen(false);
+                          setTextVal('')
                         }}
                         className="bg-[#21A7F9] bg-opacity-60 w-[311px] font-normal text-lg leading-5 text-white h-12 rounded"
                       >
@@ -172,6 +176,7 @@ function App() {
                 </div>
               </>
             }
+
           </Sheet.Content>
         </Sheet.Container>
         <Sheet.Backdrop />
