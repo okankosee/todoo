@@ -89,7 +89,7 @@ const Home = () => {
                         <Quote />
                     </div>
                     <div className="text-white font-Inter text-base font-normal leading-normal tracking-tight ml-[-120px] mt-[15px]">
-                        <button >Add a task</button>
+                        <button>Add a task</button>
                     </div>
                     <div className="flex items-center mr-4">
                         <Rightarrow />

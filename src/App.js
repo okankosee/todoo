@@ -11,7 +11,7 @@ import Radiobuton from "./assets/icon/radiobuton";
 import Sheet from "react-modal-sheet";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { todosSet } from "./redux/todosSlice";
+import { todosSet, setWillUpdatedId } from "./redux/todosSlice";
 // import { useEffect } from "react";
 import BottomSheetContent from "./components/bottomSheet/bottomSheetContent";
 import { SetIsThreeDotBottomSheetOpen } from "./redux/bottomSheetSlice";
@@ -39,7 +39,10 @@ const App = () => {
   // console.log(inpValue, 'inp')
   const dispatch = useDispatch();
   const todos = useSelector((state) => state.todos.todos);
-  console.log(todos, "asd");
+  const todosOnThePin = useSelector((state) => state.todos.todosOnThePin);
+  console.log(todosOnThePin, "pins");
+  console.log(todos, "todos");
+  const [isCheck, setIsCheck] = useState(false)
   return (
     <>
       <div>
@@ -66,14 +69,14 @@ const App = () => {
                     Pin on the top
                   </p>
                 </div>
-              </div>
-              <div className=" overflow-auto h-96">
-                {todos?.map((item) => (
-                  <div
+                <div className="w-full flex px-4 py-4 h-full">
+                  {todosOnThePin?.map((item) => <div
                     key={item.id}
                     className="flex justify-between px-4 mb-[30px] mt-4"
                   >
-                    {item.checked ? <Bluetick /> : <Tick />}
+                    <div onClick={() => setIsCheck(!isCheck)}>
+                      {isCheck ? <Bluetick /> : <Tick />}
+                    </div>
                     <div className="flex w-full">
                       <p className="text-[#010A1B] text-left font-inter text-base font-normal leading-5 px-4 ">
                         {item.text.slice(0, 20)}
@@ -85,9 +88,36 @@ const App = () => {
                     >
                       <Horizontal />
                     </button>
+                  </div>)}
+                </div>
+              </div>
+              <div className=" overflow-auto h-96">
+                {todos?.map((item) => (
+                  <div
+                    key={item?.id}
+                    className="flex justify-between px-4 mb-[30px] mt-4"
+                  >
+                    <div onClick={() => setIsCheck(!isCheck)}>
+                      {isCheck ? <Bluetick /> : <Tick />}
+                    </div>
+                    <div className="flex w-full">
+                      <p className="text-[#010A1B] text-left font-inter text-base font-normal leading-5 px-4 ">
+                        {item?.text.slice(0, 20)}
+                      </p>
+                    </div>
+                    <button
+
+                      onClick={() => {
+                        console.log('id', item?.id)
+                        dispatch(setWillUpdatedId(item?.id))
+                        dispatch(SetIsThreeDotBottomSheetOpen())
+                      }}
+                    >
+                      <Horizontal />
+                    </button>
                   </div>
                   // {
-                    // todos.map(todos => <div><div/>)
+                  // todos.map(todos => <div><div/>)
                   /* } */
                 ))}
               </div>
@@ -158,8 +188,10 @@ const App = () => {
                     <div className="flex justify-center">
                       <button
                         onClick={() => {
-                          dispatch(todosSet(inpValue));
-                          setOpen(false);
+                          if (inpValue.text !== '') {
+                            dispatch(todosSet(inpValue));
+                            setOpen(false);
+                          }
                           setTextVal('')
                         }}
                         className="bg-[#21A7F9] bg-opacity-60 w-[311px] font-normal text-lg leading-5 text-white h-12 rounded"
