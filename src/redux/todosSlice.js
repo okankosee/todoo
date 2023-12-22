@@ -7,7 +7,7 @@ const initialState = {
         checked: true
     }, {
         id: 2,
-        text: 'working',
+        text: '',
         checked: true
     }
     ]
@@ -22,13 +22,13 @@ export const todosSlice = createSlice({
         },
         setCheck: (state, actions) => {
             state.todos.map(item => {
-                if (actions.payload === item.id) {
-                    if (item.done === true) {
-                        item.done = false
-                    } else {
-                        item.done = true
-                    }
-                }
+                // if (actions.payload === item.id) {
+                    // if (item.done === true) {
+                        // item.done = false
+                    // } else {
+                        // item.done = true
+                    // }
+                // }
             })
         }
     },

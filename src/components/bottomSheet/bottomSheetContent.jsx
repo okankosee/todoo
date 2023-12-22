@@ -21,29 +21,29 @@ const BottomSheetContent = () => {
 
         <Sheet.Content>{
           <>
-            <div className='flex justify-center items-center my-6'>
-              <div >
-                {/* <Blackpin /> */}
+            <div className='flex flex-col'>
+              <div className='flex justify-center items-center my-6' >
+                <Blackpin />
                 <p className='ml-2 h-5 text-#010A1B font-Inter text-16 font-normal leading-normal tracking-tight" style="letter-spacing: -0.24px;'>Pin on the top</p>
               </div>
-              <span className="h-[0.5px] w-full bg-[#E5E5E5]"></span>
+              <span className="h-[1.5px] w-full bg-[#E5E5E5]"></span>
             </div>
-            <div className='flex justify-center items-center my-6'>
-              <div>
+            <div className='flex flex-col' >
+              <div className='flex justify-center items-center my-6'>
                 <Sync />
                 <p className='ml-2 h-5 text-#010A1B font-Inter text-16 font-normal leading-normal tracking-tight" style="letter-spacing: -0.24px;'>Update</p>
               </div>
-              <span className="h-[0.5px] w-full bg-[#E5E5E5]"></span>
+              <span className="h-[1.5px] w-full bg-[#E5E5E5]"></span>
             </div>
-            <div className='flex justify-center items-center my-6'>
-              <div>
+            <div className='flex flex-col'>
+              <div className='flex justify-center items-center my-6'>
                 <Delete />
                 <p className='ml-2 h-5 text-#010A1B font-Inter text-16 font-normal leading-normal tracking-tight" style="letter-spacing: -0.24px;'>Delete</p>
               </div>
-              <span className="h-[0.5px] w-full bg-[#E5E5E5]"></span>
+              <span className="h-[1.5px] w-full bg-[#E5E5E5]"></span>
             </div>
           </>
-        };
+        }
 
 
 

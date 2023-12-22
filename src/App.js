@@ -50,7 +50,7 @@ const App = () => {
             alt="logo"
           />
 
-          <div className="bg-white w-[343px] h-[650px] rounded-lg flex flex-col justify-between">
+          <div className="bg-white w-[343px] h-[650px] mt-10 rounded-lg  flex flex-col justify-between">
             <div>
               <div className="w-full h-[54px] flex flex-col items-center justify-center  ">
                 <p className="text-[#194591] text-center font-Inter font-semibold text-lg tracking-wide leading-normal mt-4">
@@ -86,6 +86,9 @@ const App = () => {
                       <Horizontal />
                     </button>
                   </div>
+                  // {
+                    // todos.map(todos => <div><div/>)
+                  /* } */
                 ))}
               </div>
             </div>
