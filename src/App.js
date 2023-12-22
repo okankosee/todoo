@@ -69,7 +69,7 @@ const App = () => {
                     Pin on the top
                   </p>
                 </div>
-                <div className="w-full flex px-4 py-4 h-full">
+                <div className="w-full flex flex-col overflow-auto px-4 py-4 h-full">
                   {todosOnThePin?.map((item) => <div
                     key={item.id}
                     className="flex justify-between px-4 mb-[30px] mt-4"

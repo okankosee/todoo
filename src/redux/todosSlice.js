@@ -25,7 +25,7 @@ export const todosSlice = createSlice({
             state.todos = [...state.todos, payload.payload];
         },
         todosDelete: (state, payload) => {
-            state.todos = [...state.todos.re payload.payload];
+            state.todos = [...state.todos, payload.payload];
             console.log(payload.payload, 'payload')
         },
         todosOnThePinSet: (state, payload) => {
