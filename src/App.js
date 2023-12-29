@@ -43,6 +43,10 @@ const App = () => {
   console.log(todosOnThePin, "pins");
   console.log(todos, "todos");
   const [isCheck, setIsCheck] = useState(false)
+  const handleDivClick = () => {
+    setIsCheck(prevIsCheck => !prevIsCheck);
+  };
+  
   return (
     <>
       <div>
@@ -69,15 +73,15 @@ const App = () => {
                     Pin on the top
                   </p>
                 </div>
-                <div className="w-full flex flex-col overflow-auto px-4 py-4 h-full">
+                <div className="w-full flex flex-col overflow-auto py-4 h-full">
                   {todosOnThePin?.map((item) => <div
                     key={item.id}
                     className="flex justify-between px-4 mb-[30px] mt-4"
                   >
-                    <div onClick={() => setIsCheck(!isCheck)}>
+                    <div onClick={handleDivClick}>
                       {isCheck ? <Bluetick /> : <Tick />}
                     </div>
-                    <div className="flex w-full">
+                    <div className="flex w-full justify-start">
                       <p className="text-[#010A1B] text-left font-inter text-base font-normal leading-5 px-4 ">
                         {item.text.slice(0, 20)}
                       </p>
