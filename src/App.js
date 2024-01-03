@@ -9,10 +9,9 @@ import Rightarrow from "./assets/icon/rightarrow";
 import Close from "./assets/icon/close";
 import Radiobuton from "./assets/icon/radiobuton";
 import Sheet from "react-modal-sheet";
-import { useState } from "react";
+import { useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { todosSet, setWillUpdatedId } from "./redux/todosSlice";
-// import { useEffect } from "react";
 import BottomSheetContent from "./components/bottomSheet/bottomSheetContent";
 import { SetIsThreeDotBottomSheetOpen } from "./redux/bottomSheetSlice";
 
@@ -46,6 +45,7 @@ const App = () => {
   const handleDivClick = () => {
     setIsCheck(prevIsCheck => !prevIsCheck);
   };
+  
   
   return (
     <>
@@ -176,6 +176,7 @@ const App = () => {
                     placeholder="Task description"
                     value={textVal}
                     onChange={handleChange}
+                    
                   />
                 </div>
                 <div className="flex flex-col">

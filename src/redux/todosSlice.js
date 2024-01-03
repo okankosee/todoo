@@ -43,28 +43,35 @@ export const todosSlice = createSlice({
             const deletedTodoId = payload.payload;
             state.todos = state.todos.filter(todo => todo.id !== deletedTodoId);
             console.log(payload.payload, 'payload')
-          },
-          updateTodo: (state, action) => {
-            const { id, pinned, description } = action.payload;
+        },
+        todosOnThePinDelete: (state, payload) => {
+            const deletedTodoId = payload.payload;
+            state.todosOnThePin = state.todosOnThePin.filter(todo => todo.id !== deletedTodoId);
+            console.log(payload.payload, 'payload')
+        },
+        updateTodo: (state, action) => {
+            const { id, checked, text } = action.payload;
         
             state.todos = state.todos.map(todo => {
               if (todo.id === id) {
                 return {
                   ...todo,
-                  pinned: pinned !== undefined ? pinned : todo.pinned,
-                  description: description !== undefined ? description : todo.description,
+                  checked: checked !== undefined ? checked : todo.checked,
+                  text : text !== undefined ? text : todo.text,
                 };
+                
               }
               return todo;
             });
-          },
+            console.log(action.payload,'okannnn')
+        },
       
         
           
     },
 })
 
-export const { todosSet, setCheck, setWillUpdatedId, todosOnThePinSet, todosDelete } = todosSlice.actions
+export const { todosSet, setCheck, setWillUpdatedId,updateTodo, todosOnThePinSet,todosOnThePinDelete, todosDelete } = todosSlice.actions
 export const selectTodos = state => state.todos.selectTodos
-export const { updateTodo } = todosSlice.actions;
+
 export default todosSlice.reducer
