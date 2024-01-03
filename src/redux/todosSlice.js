@@ -1,15 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    todos: [{
-        id: 1,
-        text: 'work',
-        checked: true
-    }, {
-        id: 2,
-        text: 'asdasd',
-        checked: true
-    }
+    todos: [
     ],
     todosOnThePin: [
 
@@ -25,8 +17,8 @@ export const todosSlice = createSlice({
             state.todos = [...state.todos, payload.payload];
         },
         // todosDelete: (state, payload) => {
-            // state.todos = [...state.todos, payload.payload];
-            // console.log(payload.payload, 'payload')
+        // state.todos = [...state.todos, payload.payload];
+        // console.log(payload.payload, 'payload')
         // },
         todosOnThePinSet: (state, payload) => {
             state.todosOnThePin = [...state.todosOnThePin, payload.payload];
@@ -35,9 +27,9 @@ export const todosSlice = createSlice({
             state.willUpdatedId = payload.payload;
         },
         // setCheck: (state, actions) => {
-            // state.todos.map(item => {
-                // return item;
-            // })
+        // state.todos.map(item => {
+        // return item;
+        // })
         // },
         todosDelete: (state, payload) => {
             const deletedTodoId = payload.payload;
@@ -51,27 +43,26 @@ export const todosSlice = createSlice({
         },
         updateTodo: (state, action) => {
             const { id, checked, text } = action.payload;
-        
+
             state.todos = state.todos.map(todo => {
-              if (todo.id === id) {
-                return {
-                  ...todo,
-                  checked: checked !== undefined ? checked : todo.checked,
-                  text : text !== undefined ? text : todo.text,
-                };
-                
-              }
-              return todo;
+                if (todo.id === id) {
+                    return {
+                        ...todo,
+                        checked: checked !== undefined ? checked : todo.checked,
+                        text: text !== undefined ? text : todo.text,
+                    };
+
+                }
+                return todo;
             });
-            console.log(action.payload,'okannnn')
         },
-      
-        
-          
+
+
+
     },
 })
 
-export const { todosSet, setCheck, setWillUpdatedId,updateTodo, todosOnThePinSet,todosOnThePinDelete, todosDelete } = todosSlice.actions
+export const { todosSet, setCheck, setWillUpdatedId, updateTodo, todosOnThePinSet, todosOnThePinDelete, todosDelete } = todosSlice.actions
 export const selectTodos = state => state.todos.selectTodos
 
 export default todosSlice.reducer

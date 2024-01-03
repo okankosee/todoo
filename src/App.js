@@ -9,11 +9,12 @@ import Rightarrow from "./assets/icon/rightarrow";
 import Close from "./assets/icon/close";
 import Radiobuton from "./assets/icon/radiobuton";
 import Sheet from "react-modal-sheet";
-import { useState} from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { todosSet, setWillUpdatedId } from "./redux/todosSlice";
+import { todosSet, setWillUpdatedId, updateTodo } from "./redux/todosSlice";
 import BottomSheetContent from "./components/bottomSheet/bottomSheetContent";
-import { SetIsThreeDotBottomSheetOpen } from "./redux/bottomSheetSlice";
+import { SetIsThreeDotBottomSheetOpen, SetIsMainBottomSheetOpen } from "./redux/bottomSheetSlice";
+import { useEffect } from "react";
 
 const App = () => {
   const [isOpen, setOpen] = useState(false);
@@ -22,31 +23,45 @@ const App = () => {
 
   };
   const [textVal, setTextVal] = useState("");
+
   const [inpValue, setinpValue] = useState({
     id: Math.floor(Math.random() * 10),
     text: textVal,
     checked: false,
   });
-  console.log(textVal, "text");
+
+  const willUpdatedId = useSelector((state) => state.todos.willUpdatedId);
+  const todos = useSelector((state) => state.todos.todos);
+  const willUpdatedTask = todos.find((item) => item.id === willUpdatedId);
+  console.log(willUpdatedTask, 'asdasdas')
+  const [updatedText, setUpdatedText] = useState(willUpdatedTask ? willUpdatedTask.text : '');
+  useEffect(() => {
+    setUpdatedText(willUpdatedTask ? willUpdatedTask.text : '');
+  }, [willUpdatedTask]);
+  const dispatch = useDispatch();
+  const todosOnThePin = useSelector((state) => state.todos.todosOnThePin);
+  const isMainBottomSheetOpen = useSelector((state) => state.bottomSheetSlice.isMainBottomSheetOpen);
+  const [isCheck, setIsCheck] = useState(false)
+  const handleDivClick = () => {
+    setIsCheck(prevIsCheck => !prevIsCheck);
+  };
   const handleChange = (e) => {
     setTextVal(e.target.value);
     setinpValue({
       ...inpValue,
       text: e.target.value,
     });
+    setUpdatedText(e.target.value)
   };
-  // console.log(inpValue, 'inp')
-  const dispatch = useDispatch();
-  const todos = useSelector((state) => state.todos.todos);
-  const todosOnThePin = useSelector((state) => state.todos.todosOnThePin);
-  console.log(todosOnThePin, "pins");
-  console.log(todos, "todos");
-  const [isCheck, setIsCheck] = useState(false)
-  const handleDivClick = () => {
-    setIsCheck(prevIsCheck => !prevIsCheck);
+  const handleUpdate = () => {
+    dispatch(updateTodo({
+      id: willUpdatedId,
+      text: updatedText,
+    }));
+
+    dispatch(SetIsThreeDotBottomSheetOpen());
   };
-  
-  
+  console.log(willUpdatedTask, 'willtas')
   return (
     <>
       <div>
@@ -128,7 +143,7 @@ const App = () => {
             </div>
 
             <div
-              onClick={() => OpenBottomSheet()}
+              onClick={() => dispatch(SetIsMainBottomSheetOpen())}
               className="bg-[#21A7F9] w-[311px] h-[54px] rounded-md flex justify-between ml-4 mb-4"
             >
               <div className="flex items-center ml-6 ">
@@ -147,8 +162,8 @@ const App = () => {
       </div>
       <Sheet
         detent="content-height"
-        isOpen={isOpen}
-        onClose={() => setOpen(false)}
+        isOpen={isMainBottomSheetOpen}
+        onClose={() => dispatch(SetIsMainBottomSheetOpen())}
       >
         <Sheet.Container>
           {/* <Sheet.Header className="bg-red-600 "/> */}
@@ -160,7 +175,9 @@ const App = () => {
 
             <button
               className="absolute top-4 right-4"
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                dispatch(SetIsMainBottomSheetOpen());
+              }}
             >
               <Close />
             </button>
@@ -174,9 +191,9 @@ const App = () => {
                     type="Task description"
                     style={{ gap: "17px", border: "1.5px solid #999C9F" }}
                     placeholder="Task description"
-                    value={textVal}
+                    value={willUpdatedTask ? updatedText : textVal}
                     onChange={handleChange}
-                    
+
                   />
                 </div>
                 <div className="flex flex-col">
@@ -197,7 +214,12 @@ const App = () => {
                             dispatch(todosSet(inpValue));
                             setOpen(false);
                           }
-                          setTextVal('')
+                          setTextVal('');
+                          if (updatedText !== undefined || updatedText !== '') {
+                            handleUpdate();
+                          }
+                          dispatch(SetIsMainBottomSheetOpen());
+                          dispatch(SetIsThreeDotBottomSheetOpen())
                         }}
                         className="bg-[#21A7F9] bg-opacity-60 w-[311px] font-normal text-lg leading-5 text-white h-12 rounded"
                       >

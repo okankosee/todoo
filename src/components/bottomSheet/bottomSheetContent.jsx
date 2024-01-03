@@ -4,7 +4,7 @@ import Delete from '../../assets/icon/delete';
 import Sync from '../../assets/icon/sync'
 import Sheet from 'react-modal-sheet';
 import { useSelector, useDispatch } from 'react-redux'
-import { SetIsThreeDotBottomSheetOpen } from '../../redux/bottomSheetSlice.js'
+import { SetIsMainBottomSheetOpen, SetIsThreeDotBottomSheetOpen } from '../../redux/bottomSheetSlice.js'
 import { todosOnThePinSet, todosDelete, updateTodo, todosOnThePinDelete } from '../../redux/todosSlice'
 import OpenBottomSheet from '../../App.js'
 
@@ -25,21 +25,21 @@ const BottomSheetContent = () => {
     dispatch(todosOnThePinSet(willUpdatedTask));
     dispatch(todosDelete(willUpdatedId));
   }
-  
+
 
   const handleDelete = () => {
     dispatch(todosDelete(willUpdatedId));
-    dispatch(todosOnThePinDelete(willUpdatedId)); 
+    dispatch(todosOnThePinDelete(willUpdatedId));
   }
-  
+
 
   const handleUpdate = () => {
     dispatch(updateTodo({
       id: willUpdatedId,
       text: updatedText,
     }));
-  
-    dispatch(SetIsThreeDotBottomSheetOpen()); 
+
+    dispatch(SetIsThreeDotBottomSheetOpen());
   };
 
   return (
@@ -59,9 +59,12 @@ const BottomSheetContent = () => {
               <span className="h-[1.5px] w-full bg-[#E5E5E5]"></span>
             </div>
             <div className='flex flex-col' >
-              <div onClick={() => { OpenBottomSheet()
-                handleUpdate(willUpdatedId)}} className='flex justify-center items-center my-6'>
-                
+              <div onClick={() => {
+                dispatch(SetIsMainBottomSheetOpen())
+                handleUpdate(willUpdatedId)
+              }}
+                className='flex justify-center items-center my-6'>
+
                 <Sync />
                 <p className='ml-2 h-5 text-#010A1B font-Inter text-16 font-normal leading-normal tracking-tight" style="letter-spacing: -0.24px;'>Update</p>
               </div>
