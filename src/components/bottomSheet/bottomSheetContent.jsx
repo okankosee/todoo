@@ -5,8 +5,7 @@ import Sync from '../../assets/icon/sync'
 import Sheet from 'react-modal-sheet';
 import { useSelector, useDispatch } from 'react-redux'
 import { SetIsMainBottomSheetOpen, SetIsThreeDotBottomSheetOpen } from '../../redux/bottomSheetSlice.js'
-import { todosOnThePinSet, todosDelete, updateTodo, todosOnThePinDelete } from '../../redux/todosSlice'
-import OpenBottomSheet from '../../App.js'
+import { todosOnThePinSet, todosDelete, updateTodo, todosOnThePinDelete, setWillUpdatedId } from '../../redux/todosSlice'
 
 
 
@@ -45,7 +44,10 @@ const BottomSheetContent = () => {
   return (
     <Sheet
       detent="content-height"
-      isOpen={isThreeDotBottomSheetOpen} onClose={() => dispatch(SetIsThreeDotBottomSheetOpen())}
+      isOpen={isThreeDotBottomSheetOpen} onClose={() => {
+        dispatch(setWillUpdatedId(null))
+        dispatch(SetIsThreeDotBottomSheetOpen())
+      }}
     >
       <Sheet.Container>
 
@@ -62,8 +64,7 @@ const BottomSheetContent = () => {
               <div onClick={() => {
                 dispatch(SetIsMainBottomSheetOpen())
                 handleUpdate(willUpdatedId)
-              }}
-                className='flex justify-center items-center my-6'>
+              }} className='flex justify-center items-center my-6'>
 
                 <Sync />
                 <p className='ml-2 h-5 text-#010A1B font-Inter text-16 font-normal leading-normal tracking-tight" style="letter-spacing: -0.24px;'>Update</p>

@@ -25,7 +25,7 @@ const App = () => {
   const [textVal, setTextVal] = useState("");
 
   const [inpValue, setinpValue] = useState({
-    id: Math.floor(Math.random() * 10),
+    id: Math.floor(Math.random() * 100),
     text: textVal,
     checked: false,
   });
@@ -51,7 +51,9 @@ const App = () => {
       ...inpValue,
       text: e.target.value,
     });
-    setUpdatedText(e.target.value)
+    if (willUpdatedTask !== undefined) {
+      setUpdatedText(e.target.value)
+    }
   };
   const handleUpdate = () => {
     dispatch(updateTodo({
@@ -61,7 +63,13 @@ const App = () => {
 
     dispatch(SetIsThreeDotBottomSheetOpen());
   };
-  console.log(willUpdatedTask, 'willtas')
+  console.log(todos, 'willtas');
+  const [partStates, setPartStates] = useState(todos.map(() => false));
+  const toggleCheckbox = (index) => {
+    const newPartStates = [...partStates];
+    newPartStates[index] = !newPartStates[index];
+    setPartStates(newPartStates);
+  };
   return (
     <>
       <div>
@@ -89,12 +97,12 @@ const App = () => {
                   </p>
                 </div>
                 <div className="w-full flex flex-col overflow-auto py-4 h-full">
-                  {todosOnThePin?.map((item) => <div
+                  {todosOnThePin?.map((item, index) => <div
                     key={item.id}
                     className="flex justify-between px-4 mb-[30px] mt-4"
                   >
-                    <div onClick={handleDivClick}>
-                      {isCheck ? <Bluetick /> : <Tick />}
+                    <div onClick={() => toggleCheckbox(index)}>
+                      {partStates[index] ? <Bluetick /> : <Tick />}
                     </div>
                     <div className="flex w-full justify-start">
                       <p className="text-[#010A1B] text-left font-inter text-base font-normal leading-5 px-4 ">
@@ -111,13 +119,13 @@ const App = () => {
                 </div>
               </div>
               <div className=" overflow-auto h-96">
-                {todos?.map((item) => (
+                {todos?.map((item, index) => (
                   <div
                     key={item?.id}
                     className="flex justify-between px-4 mb-[30px] mt-4"
                   >
-                    <div onClick={() => setIsCheck(!isCheck)}>
-                      {isCheck ? <Bluetick /> : <Tick />}
+                    <div onClick={() => toggleCheckbox(index)}>
+                      {partStates[index] ? <Bluetick /> : <Tick />}
                     </div>
                     <div className="flex w-full">
                       <p className="text-[#010A1B] text-left font-inter text-base font-normal leading-5 px-4 ">
@@ -177,6 +185,7 @@ const App = () => {
               className="absolute top-4 right-4"
               onClick={() => {
                 dispatch(SetIsMainBottomSheetOpen());
+                dispatch(setWillUpdatedId(null))
               }}
             >
               <Close />
@@ -210,16 +219,22 @@ const App = () => {
                     <div className="flex justify-center">
                       <button
                         onClick={() => {
-                          if (inpValue.text !== '') {
+                          if (inpValue.text !== '' && willUpdatedTask === undefined) {
                             dispatch(todosSet(inpValue));
                             setOpen(false);
+                            dispatch(setWillUpdatedId(null))
+                            setinpValue({
+                              ...inpValue,
+                              id: Math.floor(Math.random() * 100),
+                            });
                           }
                           setTextVal('');
-                          if (updatedText !== undefined || updatedText !== '') {
+                          if (willUpdatedTask !== undefined) {
                             handleUpdate();
+                            dispatch(SetIsThreeDotBottomSheetOpen())
+                            dispatch(setWillUpdatedId(null))
                           }
                           dispatch(SetIsMainBottomSheetOpen());
-                          dispatch(SetIsThreeDotBottomSheetOpen())
                         }}
                         className="bg-[#21A7F9] bg-opacity-60 w-[311px] font-normal text-lg leading-5 text-white h-12 rounded"
                       >
