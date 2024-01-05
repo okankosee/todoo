@@ -19,57 +19,35 @@ import MainBottomSheet from "./components/bottomSheet/mainBottomSheet";
 
 const App = () => {
   const [isOpen, setOpen] = useState(false);
+  const dispatch = useDispatch();
   const OpenBottomSheet = () => {
     setOpen(true);
 
   };
-  const [textVal, setTextVal] = useState("");
-
-  const [inpValue, setinpValue] = useState({
-    id: Math.floor(Math.random() * 100),
-    text: textVal,
-    checked: false,
-  });
-
   const willUpdatedId = useSelector((state) => state.todos.willUpdatedId);
   const todos = useSelector((state) => state.todos.todos);
+  const todosOnThePin = useSelector((state) => state.todos.todosOnThePin);
   const willUpdatedTask = todos.find((item) => item.id === willUpdatedId);
-  console.log(willUpdatedTask, 'asdasdas')
+
   const [updatedText, setUpdatedText] = useState(willUpdatedTask ? willUpdatedTask.text : '');
+
   useEffect(() => {
     setUpdatedText(willUpdatedTask ? willUpdatedTask.text : '');
-  }, [willUpdatedTask]);
-  const dispatch = useDispatch();
-  const todosOnThePin = useSelector((state) => state.todos.todosOnThePin);
-  const isMainBottomSheetOpen = useSelector((state) => state.bottomSheetSlice.isMainBottomSheetOpen);
-  const [isCheck, setIsCheck] = useState(false)
-  const handleDivClick = () => {
-    setIsCheck(prevIsCheck => !prevIsCheck);
-  };
-  const handleChange = (e) => {
-    setTextVal(e.target.value);
-    setinpValue({
-      ...inpValue,
-      text: e.target.value,
-    });
-    if (willUpdatedTask !== undefined) {
-      setUpdatedText(e.target.value)
-    }
-  };
-  const handleUpdate = () => {
-    dispatch(updateTodo({
-      id: willUpdatedId,
-      text: updatedText,
-    }));
+  }, [willUpdatedTask, willUpdatedId]);
 
-    dispatch(SetIsThreeDotBottomSheetOpen());
-  };
-  console.log(todos, 'willtas');
+
+
   const [partStates, setPartStates] = useState(todos.map(() => false));
   const toggleCheckbox = (index) => {
     const newPartStates = [...partStates];
     newPartStates[index] = !newPartStates[index];
     setPartStates(newPartStates);
+  };
+  const [partStatesPinned, setPartStatesPinned] = useState(todosOnThePin.map(() => false));
+  const toggleCheckboxPinned = (index) => {
+    const newPartStatesPinned = [...partStatesPinned];
+    newPartStatesPinned[index] = !newPartStatesPinned[index];
+    setPartStatesPinned(newPartStatesPinned);
   };
   return (
     <>
@@ -99,11 +77,11 @@ const App = () => {
                 </div>
                 <div className="w-full flex flex-col overflow-auto py-4 h-full">
                   {todosOnThePin?.map((item, index) => <div
-                    key={item.id}
+                    key={item?.id}
                     className="flex justify-between px-4 mb-[30px] mt-4"
                   >
-                    <div onClick={() => toggleCheckbox(index)}>
-                      {partStates[index] ? <Bluetick /> : <Tick />}
+                    <div onClick={() => toggleCheckboxPinned(index)}>
+                      {partStatesPinned[index] ? <Bluetick /> : <Tick />}
                     </div>
                     <div className="flex w-full justify-start">
                       <p className="text-[#010A1B] text-left font-inter text-base font-normal leading-5 px-4 ">

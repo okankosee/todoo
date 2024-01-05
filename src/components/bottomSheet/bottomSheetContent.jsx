@@ -5,7 +5,7 @@ import Sync from '../../assets/icon/sync'
 import Sheet from 'react-modal-sheet';
 import { useSelector, useDispatch } from 'react-redux'
 import { SetIsMainBottomSheetOpen, SetIsThreeDotBottomSheetOpen } from '../../redux/bottomSheetSlice.js'
-import { todosOnThePinSet, todosDelete, updateTodo, todosOnThePinDelete, setWillUpdatedId } from '../../redux/todosSlice'
+import { todosOnThePinSet, todosDelete, updateTodo, todosOnThePinDelete, setWillUpdatedId, setTextValue } from '../../redux/todosSlice'
 
 
 
@@ -20,7 +20,7 @@ const BottomSheetContent = () => {
   useEffect(() => {
     setUpdatedText(willUpdatedTask ? willUpdatedTask.text : '');
   }, [willUpdatedTask]);
-
+  console.log(willUpdatedTask, 'task bt')
   const handlePin = () => {
     const isDuplicateInTodosOnThePin = todosOnThePin.some((task) => task.id === willUpdatedId);
     if (!isDuplicateInTodosOnThePin) {
@@ -28,15 +28,14 @@ const BottomSheetContent = () => {
       dispatch(todosDelete(willUpdatedId));
     }
     dispatch(SetIsThreeDotBottomSheetOpen());
+    dispatch(setTextValue(''));
+    dispatch(setWillUpdatedId(null));
   };
 
   const handleDelete = () => {
-    const isDuplicateInTodos = todos.some((task) => task.id === willUpdatedId);
-    const isDuplicateInTodosOnThePin = todosOnThePin.some((task) => task.id === willUpdatedId);
-    if (!isDuplicateInTodos && !isDuplicateInTodosOnThePin) {
-      dispatch(todosDelete(willUpdatedId));
-      dispatch(todosOnThePinDelete(willUpdatedId));
-    }
+
+    dispatch(todosDelete(willUpdatedId));
+    dispatch(todosOnThePinDelete(willUpdatedId));
     dispatch(SetIsThreeDotBottomSheetOpen());
   };
   const handleUpdate = () => {
@@ -48,6 +47,7 @@ const BottomSheetContent = () => {
       }));
     }
     dispatch(SetIsThreeDotBottomSheetOpen());
+    dispatch(setTextValue(''));
   };
 
   return (

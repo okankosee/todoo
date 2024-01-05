@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Sheet from "react-modal-sheet";
 import { useSelector, useDispatch } from 'react-redux';
 import { SetIsThreeDotBottomSheetOpen, SetIsMainBottomSheetOpen } from "../../redux/bottomSheetSlice";
-import { todosSet, setWillUpdatedId, updateTodo } from "../../redux/todosSlice";
+import { todosSet, setWillUpdatedId, updateTodo, setTextValue } from "../../redux/todosSlice";
 import Close from "../../assets/icon/close";
 import Radiobuton from "../../assets/icon/radiobuton";
 import Quoteorange from "../../assets/icon/quoteorange";
@@ -14,7 +14,8 @@ const MainBottomSheet = () => {
         setOpen(true);
 
     };
-    const [textVal, setTextVal] = useState("");
+    const textVal = useSelector((state) => state.todos.TextVal);
+    const dispatch = useDispatch();
 
     const [inpValue, setinpValue] = useState({
         id: Math.floor(Math.random() * 100),
@@ -26,19 +27,19 @@ const MainBottomSheet = () => {
     const todos = useSelector((state) => state.todos.todos);
     const todosOnThePin = useSelector((state) => state.todos.todosOnThePin);
     const willUpdatedTask = todos.find((item) => item.id === willUpdatedId) || todosOnThePin.find((item) => item.id === willUpdatedId);
-    console.log(willUpdatedTask, 'asdasdas')
     const [updatedText, setUpdatedText] = useState(willUpdatedTask ? willUpdatedTask.text : '');
+    console.log(todos, 'asdasd')
+    console.log(todosOnThePin, 'ddddasdasd')
     useEffect(() => {
         setUpdatedText(willUpdatedTask ? willUpdatedTask.text : '');
     }, [willUpdatedTask]);
-    const dispatch = useDispatch();
     const isMainBottomSheetOpen = useSelector((state) => state.bottomSheetSlice.isMainBottomSheetOpen);
     const [isCheck, setIsCheck] = useState(false)
     const handleDivClick = () => {
         setIsCheck(prevIsCheck => !prevIsCheck);
     };
     const handleChange = (e) => {
-        setTextVal(e.target.value);
+        dispatch(setTextValue(e.target.value));
         setinpValue({
             ...inpValue,
             text: e.target.value,
@@ -55,13 +56,8 @@ const MainBottomSheet = () => {
 
         dispatch(SetIsThreeDotBottomSheetOpen());
     };
-    console.log(todos, 'willtas');
     const [partStates, setPartStates] = useState(todos.map(() => false));
-    const toggleCheckbox = (index) => {
-        const newPartStates = [...partStates];
-        newPartStates[index] = !newPartStates[index];
-        setPartStates(newPartStates);
-    };
+    console.log(willUpdatedTask, 'task')
     return (
         <Sheet
             detent="content-height"
@@ -115,18 +111,14 @@ const MainBottomSheet = () => {
                                         <button
                                             onClick={() => {
                                                 if (inpValue.text !== '' && willUpdatedTask === undefined) {
-                                                    const isDuplicateInTodos = todos.some((task) => task.id === inpValue.id);
-                                                    const isDuplicateInTodosOnThePin = todosOnThePin.some((task) => task.id === inpValue.id);
-
-                                                    if (!isDuplicateInTodos && !isDuplicateInTodosOnThePin) {
-                                                        dispatch(todosSet(inpValue));
-                                                        setOpen(false);
-                                                        dispatch(setWillUpdatedId(null));
-                                                        setinpValue({
-                                                            ...inpValue,
-                                                            id: Math.floor(Math.random() * 100),
-                                                        });
-                                                    }
+                                                    dispatch(todosSet(inpValue));
+                                                    setOpen(false);
+                                                    setinpValue({
+                                                        ...inpValue,
+                                                        id: Math.floor(Math.random() * 100),
+                                                    });
+                                                    dispatch(setWillUpdatedId(null));
+                                                    dispatch(setTextValue(''));
                                                 }
                                                 if (willUpdatedTask !== undefined) {
                                                     handleUpdate();

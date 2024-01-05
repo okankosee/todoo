@@ -6,7 +6,8 @@ const initialState = {
     todosOnThePin: [
 
     ],
-    willUpdatedId: null
+    willUpdatedId: null,
+    textValue: ''
 }
 
 export const todosSlice = createSlice({
@@ -25,6 +26,9 @@ export const todosSlice = createSlice({
         },
         setWillUpdatedId: (state, payload) => {
             state.willUpdatedId = payload.payload;
+        },
+        setTextValue: (state, payload) => {
+            state.textValue = payload.payload;
         },
         // setCheck: (state, actions) => {
         // state.todos.map(item => {
@@ -75,7 +79,7 @@ export const todosSlice = createSlice({
     },
 })
 
-export const { todosSet, setCheck, setWillUpdatedId, updateTodo, todosOnThePinSet, todosOnThePinDelete, todosDelete } = todosSlice.actions
+export const { todosSet, setCheck, setWillUpdatedId, updateTodo, todosOnThePinSet, todosOnThePinDelete, todosDelete, setTextValue } = todosSlice.actions
 export const selectTodos = state => state.todos.selectTodos
 
 export default todosSlice.reducer
