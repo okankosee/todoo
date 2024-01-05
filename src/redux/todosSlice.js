@@ -44,17 +44,30 @@ export const todosSlice = createSlice({
         updateTodo: (state, action) => {
             const { id, checked, text } = action.payload;
 
-            state.todos = state.todos.map(todo => {
-                if (todo.id === id) {
-                    return {
-                        ...todo,
-                        checked: checked !== undefined ? checked : todo.checked,
-                        text: text !== undefined ? text : todo.text,
-                    };
 
-                }
-                return todo;
-            });
+            if (id) {
+                state.todosOnThePin = state.todosOnThePin.map(todo => {
+                    if (todo.id === id) {
+                        return {
+                            ...todo,
+                            checked: checked !== undefined ? checked : todo.checked,
+                            text: text !== undefined ? text : todo.text,
+                        };
+                    }
+                    return todo;
+                });
+            } else {
+                state.todos = state.todos.map(todo => {
+                    if (todo.id === id) {
+                        return {
+                            ...todo,
+                            checked: checked !== undefined ? checked : todo.checked,
+                            text: text !== undefined ? text : todo.text,
+                        };
+                    }
+                    return todo;
+                });
+            }
         },
 
 

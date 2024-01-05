@@ -14,30 +14,39 @@ const BottomSheetContent = () => {
   const isThreeDotBottomSheetOpen = useSelector((state) => state.bottomSheetSlice.isThreeDotBottomSheetOpen);
   const willUpdatedId = useSelector((state) => state.todos.willUpdatedId);
   const todos = useSelector((state) => state.todos.todos);
-  const willUpdatedTask = todos.find((item) => item.id === willUpdatedId);
+  const todosOnThePin = useSelector((state) => state.todos.todosOnThePin);
+  const willUpdatedTask = todos.find((item) => item.id === willUpdatedId) || todosOnThePin.find((item) => item.id === willUpdatedId);
   const [updatedText, setUpdatedText] = useState(willUpdatedTask ? willUpdatedTask.text : '');
   useEffect(() => {
     setUpdatedText(willUpdatedTask ? willUpdatedTask.text : '');
   }, [willUpdatedTask]);
 
   const handlePin = () => {
-    dispatch(todosOnThePinSet(willUpdatedTask));
-    dispatch(todosDelete(willUpdatedId));
-  }
-
+    const isDuplicateInTodosOnThePin = todosOnThePin.some((task) => task.id === willUpdatedId);
+    if (!isDuplicateInTodosOnThePin) {
+      dispatch(todosOnThePinSet(willUpdatedTask));
+      dispatch(todosDelete(willUpdatedId));
+    }
+    dispatch(SetIsThreeDotBottomSheetOpen());
+  };
 
   const handleDelete = () => {
-    dispatch(todosDelete(willUpdatedId));
-    dispatch(todosOnThePinDelete(willUpdatedId));
-  }
-
-
+    const isDuplicateInTodos = todos.some((task) => task.id === willUpdatedId);
+    const isDuplicateInTodosOnThePin = todosOnThePin.some((task) => task.id === willUpdatedId);
+    if (!isDuplicateInTodos && !isDuplicateInTodosOnThePin) {
+      dispatch(todosDelete(willUpdatedId));
+      dispatch(todosOnThePinDelete(willUpdatedId));
+    }
+    dispatch(SetIsThreeDotBottomSheetOpen());
+  };
   const handleUpdate = () => {
-    dispatch(updateTodo({
-      id: willUpdatedId,
-      text: updatedText,
-    }));
-
+    const isDuplicateInTodos = todos.some((task) => task.id === willUpdatedId);
+    if (!isDuplicateInTodos) {
+      dispatch(updateTodo({
+        id: willUpdatedId,
+        text: updatedText,
+      }));
+    }
     dispatch(SetIsThreeDotBottomSheetOpen());
   };
 
