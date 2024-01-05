@@ -28,8 +28,6 @@ const MainBottomSheet = () => {
     const todosOnThePin = useSelector((state) => state.todos.todosOnThePin);
     const willUpdatedTask = todos.find((item) => item.id === willUpdatedId) || todosOnThePin.find((item) => item.id === willUpdatedId);
     const [updatedText, setUpdatedText] = useState(willUpdatedTask ? willUpdatedTask.text : '');
-    console.log(todos, 'asdasd')
-    console.log(todosOnThePin, 'ddddasdasd')
     useEffect(() => {
         setUpdatedText(willUpdatedTask ? willUpdatedTask.text : '');
     }, [willUpdatedTask]);
@@ -53,11 +51,9 @@ const MainBottomSheet = () => {
             id: willUpdatedId,
             text: updatedText,
         }));
-
         dispatch(SetIsThreeDotBottomSheetOpen());
     };
     const [partStates, setPartStates] = useState(todos.map(() => false));
-    console.log(willUpdatedTask, 'task')
     return (
         <Sheet
             detent="content-height"
@@ -93,7 +89,6 @@ const MainBottomSheet = () => {
                                     placeholder="Task description"
                                     value={willUpdatedTask ? updatedText : textVal}
                                     onChange={handleChange}
-
                                 />
                             </div>
                             <div className="flex flex-col">

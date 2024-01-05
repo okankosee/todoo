@@ -20,7 +20,6 @@ const BottomSheetContent = () => {
   useEffect(() => {
     setUpdatedText(willUpdatedTask ? willUpdatedTask.text : '');
   }, [willUpdatedTask]);
-  console.log(willUpdatedTask, 'task bt')
   const handlePin = () => {
     const isDuplicateInTodosOnThePin = todosOnThePin.some((task) => task.id === willUpdatedId);
     if (!isDuplicateInTodosOnThePin) {
@@ -79,14 +78,6 @@ const BottomSheetContent = () => {
                 <p className='ml-2 h-5 text-#010A1B font-Inter text-16 font-normal leading-normal tracking-tight" style="letter-spacing: -0.24px;'>Update</p>
               </div>
               <span className="h-[1.5px] w-full bg-[#E5E5E5]"></span>
-              <div className='flex justify-center items-center my-6'>
-                <input
-                  type="text"
-                  value={updatedText}
-                  onChange={(e) => setUpdatedText(e.target.value)}
-                />
-                <button onClick={handleUpdate}>güncelle</button>
-              </div>
             </div>
             <div className='flex flex-col'>
               <div onClick={handleDelete} className='flex justify-center items-center my-6'>

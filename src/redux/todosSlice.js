@@ -17,10 +17,7 @@ export const todosSlice = createSlice({
         todosSet: (state, payload) => {
             state.todos = [...state.todos, payload.payload];
         },
-        // todosDelete: (state, payload) => {
-        // state.todos = [...state.todos, payload.payload];
-        // console.log(payload.payload, 'payload')
-        // },
+        
         todosOnThePinSet: (state, payload) => {
             state.todosOnThePin = [...state.todosOnThePin, payload.payload];
         },
@@ -30,25 +27,16 @@ export const todosSlice = createSlice({
         setTextValue: (state, payload) => {
             state.textValue = payload.payload;
         },
-        // setCheck: (state, actions) => {
-        // state.todos.map(item => {
-        // return item;
-        // })
-        // },
         todosDelete: (state, payload) => {
             const deletedTodoId = payload.payload;
             state.todos = state.todos.filter(todo => todo.id !== deletedTodoId);
-            console.log(payload.payload, 'payload')
         },
         todosOnThePinDelete: (state, payload) => {
             const deletedTodoId = payload.payload;
             state.todosOnThePin = state.todosOnThePin.filter(todo => todo.id !== deletedTodoId);
-            console.log(payload.payload, 'payload')
         },
         updateTodo: (state, action) => {
             const { id, checked, text } = action.payload;
-
-
             if (id) {
                 state.todosOnThePin = state.todosOnThePin.map(todo => {
                     if (todo.id === id) {

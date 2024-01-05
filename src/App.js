@@ -28,15 +28,10 @@ const App = () => {
   const todos = useSelector((state) => state.todos.todos);
   const todosOnThePin = useSelector((state) => state.todos.todosOnThePin);
   const willUpdatedTask = todos.find((item) => item.id === willUpdatedId);
-
   const [updatedText, setUpdatedText] = useState(willUpdatedTask ? willUpdatedTask.text : '');
-
   useEffect(() => {
     setUpdatedText(willUpdatedTask ? willUpdatedTask.text : '');
   }, [willUpdatedTask, willUpdatedId]);
-
-
-
   const [partStates, setPartStates] = useState(todos.map(() => false));
   const toggleCheckbox = (index) => {
     const newPartStates = [...partStates];
